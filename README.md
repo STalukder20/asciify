@@ -5,6 +5,8 @@ Program to produce an ascii form of a given image.
 The program outputs an ascii character form of a given .jpg or .png image.
 A personal project to gain insight as to how ascii art is produced,
 and to be able to create ascii art forms of any given image.
+Currently still a work-in-progress, with a GUI hopefully coming soon, 
+and additional features.
 
 ## How does it work?
 This is a python program that uses the Python Image Library to turnthe 

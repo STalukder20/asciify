@@ -5,11 +5,12 @@ from PIL import Image, ImageShow
 
 
 def load_to_array(path: str) -> List[List[List[int]]]:
-    red_factor = 2
+    red_factor = 4
     img = Image.open(path)
     print("Image loaded, size: ", img.size, " format: ", img.format)
     red_factor += int(max(img.size) / 256)
-    return np.asarray(img.reduce(red_factor))
+    img = img.reduce(red_factor)
+    return np.asarray(img)
 
 
 def make_brightness_matrix(input_matrix: List[List[List[int]]]) -> List[List[float]]:
@@ -24,15 +25,23 @@ def make_brightness_matrix(input_matrix: List[List[List[int]]]) -> List[List[flo
     return brightness_matrix
 
 
-def make_ascii_matrix(brightness_matrix: List[List[int]]) -> List[List[str]]:
-    ascii_string = "`^\",:;Il!i~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$"
+def make_ascii_matrix(brightness_matrix: List[List[int]], invert: bool = False) -> List[List[str]]:
+    ascii_string = "`^\",:;Il!i~+_-?][}{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B$@"
     ascii_matrix = []
-    for row in range(len(brightness_matrix)):
-        ascii_matrix.append([])
-        for coln in range(len(brightness_matrix[row])):
-            # print(round((brightness_matrix[row][coln] / 255) * 65))
-            ascii_matrix[row].append(
-                ascii_string[(round((brightness_matrix[row][coln] / 255) * 65)) - 1])
+    if (not invert):
+        for row in range(len(brightness_matrix)):
+            ascii_matrix.append([])
+            for coln in range(len(brightness_matrix[row])):
+                ascii_matrix[row].append(
+                    ascii_string[(round((brightness_matrix[row][coln] / 255) * 65)) - 1])
+    else:
+        for row in range(len(brightness_matrix)):
+            ascii_matrix.append([])
+            for coln in range(len(brightness_matrix[row])):
+                mapping = 65 - \
+                    (round((brightness_matrix[row][coln] / 255) * 65))
+                ascii_matrix[row].append(
+                    ascii_string[mapping])
     return ascii_matrix
 
 
@@ -48,12 +57,5 @@ def print_ascii_matrix(ascii_matrix: List[List[str]]) -> None:
 if __name__ == "__main__":
     img_array = load_to_array("test.png")
     brightness = make_brightness_matrix(img_array)
-    ascii_matrix = make_ascii_matrix(brightness)
-
-    # for i in range(len(brightness)):
-    #     for j in range(len(brightness[0])):
-    #         if (i == j):
-    #             print(img_array[i][j])
-    #             print(brightness[i][j])
-
+    ascii_matrix = make_ascii_matrix(brightness, invert=False)
     print_ascii_matrix(ascii_matrix)

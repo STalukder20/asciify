@@ -9,7 +9,7 @@ Currently still a work-in-progress, with a GUI hopefully coming soon,
 and additional features.
 
 ## How does it work?
-This is a python program that uses the Python Image Library to turnthe 
+This is a python program that uses the Python Image Library to turn the 
 pixels into more useful RGB data. It then uses the data to determine 
 which characters best correspond to each pixel, and outputs the mapped result.
 

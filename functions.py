@@ -1,7 +1,7 @@
 import numpy as np
 import math
 from typing import List
-from PIL import Image, ImageShow
+from PIL import Image
 
 
 def load_to_array(path: str) -> List[List[List[int]]]:

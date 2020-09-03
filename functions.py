@@ -55,7 +55,7 @@ def print_ascii_matrix(ascii_matrix: List[List[str]]) -> None:
 
 
 if __name__ == "__main__":
-    img_array = load_to_array("test.png")
+    img_array = load_to_array("icon.jpg")
     brightness = make_brightness_matrix(img_array)
     ascii_matrix = make_ascii_matrix(brightness, invert=False)
     print_ascii_matrix(ascii_matrix)

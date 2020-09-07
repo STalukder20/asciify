@@ -54,6 +54,13 @@ def print_ascii_matrix(ascii_matrix: List[List[str]]) -> None:
     print()
 
 
+def all_together(path: str) -> List[List[str]]:
+    img_to_arr = load_to_array(path)
+    brt_mtrx = make_brightness_matrix(img_to_arr)
+    ascii_mtrx = make_ascii_matrix(brt_mtrx)
+    return ascii_mtrx
+
+
 if __name__ == "__main__":
     img_array = load_to_array("icon.jpg")
     brightness = make_brightness_matrix(img_array)

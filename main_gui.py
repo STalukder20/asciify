@@ -16,6 +16,8 @@ class AsciifyGUI:
         self.file_btn = self.create_file_btn()
         self.invert_chk = self.create_inv_chk()
         self.img_canvas = self.create_img_canv()
+        self.img_path = "None"
+        self.conv_btn = self.create_conv_btn()
 
     def create_root(self):
         root = tk.Tk()
@@ -25,19 +27,19 @@ class AsciifyGUI:
 
     def create_slct_frame(self):
         slct_frame = ttk.Frame(self.root)
-        slct_frame.grid(row=25, column=25)
+        slct_frame.grid(row=25, column=40)
         return slct_frame
 
     def create_file_btn(self):
         file_btn = ttk.Button(self.slct_frame, text="Select Image")
-        file_btn.grid(row=50, column=50)
-        file_btn["command"] = self.slct_btn_pressed
+        file_btn.grid(row=0, column=0)
+        file_btn["command"] = self.slct_btn_click
         return file_btn
 
     def create_inv_chk(self):
         invert_chk = ttk.Checkbutton(
             self.slct_frame, text="Black-White Inversion", var=self.invert_opt)
-        invert_chk.grid(row=100, column=50)
+        invert_chk.grid(row=10, column=0)
         invert_chk["command"] = self.chk_btn_click
         print("initial state invert", self.invert_opt.get())
         return invert_chk
@@ -47,19 +49,48 @@ class AsciifyGUI:
         canvas.grid(row=30, column=10)
         return canvas
 
+    def create_conv_btn(self):
+        conv_btn = ttk.Button(self.root, text="CONVERT")
+        conv_btn.grid(row=30, column=40)
+        conv_btn["command"] = self.conv_btn_click
+        return conv_btn
+
     def chk_btn_click(self):
         print("chk_btn_click, invert_opt:", self.invert_opt.get())
         print("invert_chk state, type", self.invert_chk.state(),
               type(self.invert_chk.state()))
         print("selected" in self.invert_chk.state())
 
-    def slct_btn_pressed(self):
+    def slct_btn_click(self):
         file_path = filedialog.askopenfilename(
             parent=self.root, initialdir=os.getcwd(), title="Image")
-        print(file_path)
+        self.img_path = file_path
         img = ImageTk.PhotoImage(Image.open(file_path))
-        self.img_canvas.create_image(20, 20, anchor="center", image=img)
+        self.img_canvas.create_image(125, 125, anchor="center", image=img)
         self.img_canvas.mainloop()
+
+    def conv_btn_click(self):
+        save = open("newfile.txt", "w")
+        ascii_mtrx = functions.all_together(self.img_path)
+        functions.print_ascii_matrix(ascii_mtrx)
+        img_window = tk.Tk()
+        img_window.wm_title("Converted")
+        text_box = tk.Text(img_window, height=len(
+            ascii_mtrx), width=len(ascii_mtrx[0]))
+        text_box.grid(row=0, column=0)
+
+        for row in range(len(ascii_mtrx)):
+            text_box.insert(tk.END, "\n")
+            save.write("\n")
+            line = ""
+            for coln in range(len(ascii_mtrx[row])):
+                line += ascii_mtrx[row][coln]
+            text_box.insert(tk.END, line)
+            save.write(line)
+
+        save.close()
+
+        img_window.mainloop()
 
 
 if __name__ == "__main__":

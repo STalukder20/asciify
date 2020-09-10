@@ -71,13 +71,15 @@ class AsciifyGUI:
 
     def conv_btn_click(self):
         save = open("newfile.txt", "w")
-        ascii_mtrx = functions.all_together(self.img_path)
+        ascii_mtrx = functions.all_together(
+            self.img_path, invert_=self.invert_opt.get())
         functions.print_ascii_matrix(ascii_mtrx)
         img_window = tk.Tk()
         img_window.wm_title("Converted")
+        img_scroll = ttk.Scrollbar(img_window)
         text_box = tk.Text(img_window, height=len(
             ascii_mtrx), width=len(ascii_mtrx[0]))
-        text_box.grid(row=0, column=0)
+        text_box.pack(side=tk.LEFT, fill=tk.Y)
 
         for row in range(len(ascii_mtrx)):
             text_box.insert(tk.END, "\n")
@@ -87,6 +89,10 @@ class AsciifyGUI:
                 line += ascii_mtrx[row][coln]
             text_box.insert(tk.END, line)
             save.write(line)
+
+        img_scroll.pack(side=tk.RIGHT, fill=tk.Y)
+        img_scroll.config(command=text_box.yview)
+        text_box.config(yscrollcommand=img_scroll.set)
 
         save.close()
 

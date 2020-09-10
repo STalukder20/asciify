@@ -54,10 +54,10 @@ def print_ascii_matrix(ascii_matrix: List[List[str]]) -> None:
     print()
 
 
-def all_together(path: str) -> List[List[str]]:
+def all_together(path: str, invert_: bool = False) -> List[List[str]]:
     img_to_arr = load_to_array(path)
     brt_mtrx = make_brightness_matrix(img_to_arr)
-    ascii_mtrx = make_ascii_matrix(brt_mtrx)
+    ascii_mtrx = make_ascii_matrix(brt_mtrx, invert=invert_)
     return ascii_mtrx
 
 

@@ -59,10 +59,3 @@ def all_together(path: str, invert_: bool = False) -> List[List[str]]:
     brt_mtrx = make_brightness_matrix(img_to_arr)
     ascii_mtrx = make_ascii_matrix(brt_mtrx, invert=invert_)
     return ascii_mtrx
-
-
-if __name__ == "__main__":
-    img_array = load_to_array("icon.jpg")
-    brightness = make_brightness_matrix(img_array)
-    ascii_matrix = make_ascii_matrix(brightness, invert=False)
-    print_ascii_matrix(ascii_matrix)

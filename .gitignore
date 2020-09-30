@@ -1,5 +1,6 @@
 *.png
 *.jpg
 *.txt
+*.spec
 __pycache__
 .vscode

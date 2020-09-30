@@ -7,7 +7,6 @@ from PIL import Image
 def load_to_array(path: str) -> List[List[List[int]]]:
     red_factor = 4
     img = Image.open(path)
-    print("Image loaded, size: ", img.size, " format: ", img.format)
     red_factor += int(max(img.size) / 256)
     img = img.reduce(red_factor)
     return np.asarray(img)
